@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <!-- <script>
   // VConsole will be exported to `window.VConsole` by default.
@@ -36,70 +37,44 @@
 <script src="//r.haier.net/assets/overlay/dts-fe/common-assets/axios/0.23.0/axios.min.js"></script>
 </head>
 <body>
-<div>H5调前置摄像头DEMO</div>
-<video id="video" width="480" height="320" muted controls  autoplay="autoplay">
-</video>
-<div>
-<button id="capture">拍照</button>
-</div>
-<canvas id="canvas" width="480" height="320"></canvas>
+<div>调用位置信息demo</div>
+
 <script>
-//访问用户媒体设备的兼容方法
-function getUserMedia(constraints, success, error) {
-  if (navigator.mediaDevices.getUserMedia) {
-    //最新的标准API
-    navigator.mediaDevices.getUserMedia({
-                'audio':{ echoCancellation: false },
-                'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
-            })
-            .then(success)
-            .catch(error)
-  } else if (navigator.webkitGetUserMedia) {
-    //webkit核心浏览器
-    navigator.webkitGetUserMedia(constraints, success, error)
-  } else if (navigator.mozGetUserMedia) {
-    //firfox浏览器
-    navigator.mozGetUserMedia(constraints, success, error);
-  } else if (navigator.getUserMedia) {
-    //旧版API
-    navigator.getUserMedia(constraints, success, error);
-  }
+function getLocation(){ 
+  if (navigator.geolocation){ 
+    navigator.geolocation.getCurrentPosition(showPosition,showError); 
+  }else{ 
+    alert("浏览器不支持地理定位。"); 
+  } 
+} 
+
+function showError(error){ 
+  switch(error.code) { 
+    case error.PERMISSION_DENIED: 
+      alert("定位失败,用户拒绝请求地理定位"); 
+      break; 
+    case error.POSITION_UNAVAILABLE: 
+      alert("定位失败,位置信息是不可用"); 
+      break; 
+    case error.TIMEOUT: 
+      alert("定位失败,请求获取用户位置超时"); 
+      break; 
+    case error.UNKNOWN_ERROR: 
+      alert("定位失败,定位系统失效"); 
+      break; 
+  } 
+} 
+
+function showPosition(position){ 
+  var lat = position.coords.latitude; //纬度 
+  var lag = position.coords.longitude; //经度 
+  alert('纬度:'+lat+',经度:'+lag); 
+} 
+
+if (navigator.geolocation){
+    getLocation()
 }
 
-let video = document.getElementById('video');
-let canvas = document.getElementById('canvas');
-let context = canvas.getContext('2d');
-
-function success(stream) {
-  //兼容webkit核心浏览器
-  let CompatibleURL = window.URL || window.webkitURL;
-  //将视频流设置为video元素的源
-  console.log(stream);
-
-  //video.src = CompatibleURL.createObjectURL(stream);
-  video.srcObject = stream;
-  video.play();
-
-}
-
-function error(error) {
-  console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
-}
-
-if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
-  //调用用户媒体设备, 访问摄像头
-  getUserMedia({ video: { width: 480, height: 320 } }, success, error);
-} else {
-  alert('不支持访问用户媒体');
-}
-
-document.getElementById('capture').addEventListener('click', function () {
-  context.drawImage(video, 0, 0, 480, 320);
-  var img = canvas.toDataURL('image/png');
-  $.post('https://snssdk.bytedance.net/1jb3p491',{'imegse':img},function(data){
-  //指定photo.php文件所在位置
-  })
-})
 </script>
 </body>
 </html>
