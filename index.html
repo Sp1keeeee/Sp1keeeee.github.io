@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>文档标题</title>
-</head>
-<body>
-  <script>
-        function whoami() {
-        let output = "参数列表:\n";
-        for (let i = 0; i < arguments.length; i++) {
-        output += `参数${i + 1}: ${arguments[i]}\n`;
-        }
-        alert(output);}
-        pay.pay('{"callbackFunc":"whoami","orderInfo":{"cpOrderId":"123","productName":"Shit","productDesc":"shit","callBackUrl":"https://baidu.com","price":0.01,"attach":"123","appKey":"123","appId":"123","timestamp":"123","sign":"123"}}')
-    </script>
-</body>
-</html>
+<script>
+function whoami() {
+  let output = "参数列表:\n";
+  for (let i = 0; i < arguments.length; i++) {
+    output += `参数 ${i + 1}: ${arguments[i]}\n`;
+  }
+  alert(output);
+}
+
+pay.pay('{"callbackFunc":"whoami","orderInfo":{"cpOrderId":"123","productName":"Shit","productDesc":"shit","callBackUrl":"https://baidu.com","price":66666,"attach":"123","appKey":"123","appId":"123","timestamp":"123","sign":"123"}}')
+</script>
