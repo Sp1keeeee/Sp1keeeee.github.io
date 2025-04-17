@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Display Function Results</title>
+</head>
+<body>
+<button onclick="showFunctionResult1()">Show Result 1</button>
+<div id="functionResult1"></div>
+
+<button onclick="showFunctionResult2()">Show Result 2</button>
+<div id="functionResult2"></div>
+
+<script>
+function function1() {
+    
+    return "Function 1 executed!";
+}
+
+function function2() {
+    return "Function 2 executed!";
+}
+
+function showFunctionResult1() {
+    const result1 = function1();
+    document.getElementById("functionResult1").innerText = result1;
+}
+
+function showFunctionResult2() {
+    const result2 = function2();
+    document.getElementById("functionResult2").innerText = result2;
+}
+</script>
+</body>
+</html>
