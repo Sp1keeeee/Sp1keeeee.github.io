@@ -12,8 +12,13 @@
 <div id="functionResult2"></div>
 
 <script>
+system.onmessage = function(data) {
+  console.log('message received: ' + data)
+  document.getElementById("functionResult1").innerText = data;
+}
+
 function function1() {
-    
+    system.postMessage('{"cmd":"getToken"}')
     return "Function 1 executed!";
 }
 
