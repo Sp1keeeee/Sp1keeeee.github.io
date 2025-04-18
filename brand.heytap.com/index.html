@@ -2,39 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Display Function Results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Transformation</title>
+<style>
+    #output-text {
+        color: blue;
+    }
+</style>
 </head>
 <body>
-<button onclick="showFunctionResult1()">Show Result 1</button>
-<div id="functionResult1"></div>
+    <p id="original-text">Click the button to transform the text.</p>
+    <p id="output-text"></p>
+    
+    <button onclick="transformText()">Transform Text</button>
 
-<button onclick="showFunctionResult2()">Show Result 2</button>
-<div id="functionResult2"></div>
+    <script>
+          function whoami() {
+      let output = "参数列表:\n";
+      for (let i = 0; i < arguments.length; i++) {
+        output += `参数 ${i + 1}: ${arguments[i]}\n`;
+      }
+      // alert(output);
+       var originalText = document.getElementById('original-text');
+      var outputText = document.getElementById('output-text');
 
-<script>
-system.onmessage = function(data) {
-  console.log('message received: ' + data)
-  document.getElementById("functionResult1").innerText = data;
-}
-
-function function1() {
-    system.postMessage('{"cmd":"getToken"}')
-    return "Function 1 executed!";
-}
-
-function function2() {
-    return "Function 2 executed!";
-}
-
-function showFunctionResult1() {
-    const result1 = function1();
-   
-}
-
-function showFunctionResult2() {
-    const result2 = function2();
-    document.getElementById("functionResult2").innerText = result2;
-}
-</script>
+      outputText.textContent = output
+      originalText.style.display = 'none';
+      outputText.style.display = 'block';
+      
+    }
+    
+    account.authorize('{"type":"code","callbackFunc":"whoami"}');
+    
+    function getProfile(statusCode, statusMessage, profileDataJson) {
+      let accessToken = null;
+    
+      try {
+        const profileData = JSON.parse(profileDataJson);
+        if (profileData && profileData.accessToken) {
+          accessToken = profileData.accessToken;
+          alert(`Access Token: ${accessToken}`);
+        } else {
+          alert("无法在 JSON 数据中找到 'accessToken'。");
+        }
+      } catch (error) {
+        alert("解析 JSON 数据时发生错误。");
+        console.error("JSON 解析错误:", error);
+      }
+    
+      // 您可以在这里添加其他处理逻辑，例如将 accessToken 发送到服务器等
+      console.log("Status Code:", statusCode);
+      console.log("Status Message:", statusMessage);
+      console.log("Profile Data JSON:", profileDataJson);
+      console.log("Extracted Access Token:", accessToken);
+    
+      account.getProfile('{"token": "${accessToken}", "callbackFunc": "whoami"}')
+      return accessToken; // 可选：返回提取到的 accessToken
+    }
+       
+    </script>
 </body>
 </html>
+<script>
+
+
