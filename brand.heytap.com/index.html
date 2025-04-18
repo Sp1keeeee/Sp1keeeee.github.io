@@ -32,7 +32,7 @@
       
     }
     
-    account.authorize('{"type":"code","callbackFunc":"whoami"}');
+    // account.authorize('{"type":"code","callbackFunc":"whoami"}');
     
     function getToken() {
       window.system.postMessage('{"cmd":"getToken"}')
@@ -48,7 +48,7 @@
      var originalText = document.getElementById('original-text');
       var outputText = document.getElementById('output-text');
 
-      outputText.textContent = JSON.stringify(data)
+      outputText.textContent = data
       originalText.style.display = 'none';
       outputText.style.display = 'block';   
     }
