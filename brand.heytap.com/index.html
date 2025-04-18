@@ -16,6 +16,7 @@
     
     <button onclick="getToken()">getToken</button>
     <button onclick="getDeviceId()">getDeviceId</button>
+    <button onclick="install()">install</button>
     <script>
           function whoami() {
       let output = "参数列表:\n";
@@ -39,6 +40,9 @@
     }
     function getDeviceId() {
       window.system.postMessage('{"cmd":"getDeviceId"}')
+    }
+    function install() {
+      window.system.postMessage('{"cmd":"download","params":{"transferStatData":"quickappdownload","pkg":"com.heytap.research"}}')
     }
 
         
